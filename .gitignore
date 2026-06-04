@@ -1,0 +1,7 @@
+data/raw/*.zip
+pipeline/results/*.csv
+pipeline/results/*.parquet
+__pycache__/
+*.pyc
+.DS_Store
+/tmp/
