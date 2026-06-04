@@ -1,0 +1,12 @@
+substance,test,false_positive_high_conf,pass,n_cases_detected
+alcohol,exclusion_homonym,0.0,True,32637
+cannabis,exclusion_homonym,0.0,True,10772
+ghb,exclusion_homonym,0.0,True,13
+methamphetamine,exclusion_homonym,0.0,True,5492
+pcp,exclusion_homonym,0.0,True,166
+alcohol,positive_control,,True,32637
+cocaine,positive_control,,True,8509
+heroin,positive_control,,True,5967
+kratom,positive_control,,True,939
+xylazine,positive_control,,True,118
+fentanyl,positive_control,,True,0
