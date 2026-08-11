@@ -1,7 +1,33 @@
-data/raw/*.zip
-pipeline/results/*.csv
-pipeline/results/*.parquet
+# ─── Regenerable data — never commit ────────────────────────────────────────
+# Raw FDA quarterly archives (~1.3 GB). Fetch with: scripts/download_faers.sh
+# Integrity is verified against scripts/faers_manifest.sha256 instead.
+data/raw/**
+!data/raw/.gitkeep
+
+# Parsed intermediate tables (~4.0 GB; drug.csv alone is 1.8 GB, well over
+# GitHub's 100 MB per-file hard limit). Regenerate with pipeline/01_parse_faers.py
+pipeline/results/parsed/
+
+# Pipeline scratch space
+pipeline/work/
+
+# ─── Tracked on purpose (do NOT add ignore rules for these) ─────────────────
+# pipeline/results/*.csv          → the four Phase-3 export contracts
+# pipeline/results/tables/*.csv   → manuscript tables
+# pipeline/results/figures/*      → manuscript figures
+
+# ─── Python ─────────────────────────────────────────────────────────────────
 __pycache__/
 *.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+venv/
+.venv/
+.env
+
+# ─── OS / editor ────────────────────────────────────────────────────────────
 .DS_Store
-/tmp/
+Thumbs.db
+*conflicted copy*
