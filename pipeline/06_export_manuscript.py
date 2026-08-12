@@ -19,7 +19,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-from substance_detection import detect_substances, SUBSTANCE_PATTERNS
+from substance_detection import detect_substances
 
 BASE = Path(__file__).resolve().parent
 PAR = BASE / "results" / "parsed"
@@ -30,7 +30,6 @@ FIG.mkdir(parents=True, exist_ok=True)
 
 
 def descriptive_stats():
-    counts = pd.read_csv(TAB / "step1_record_counts.csv")
     dedup = pd.read_csv(TAB / "step2_dedup_summary.csv")
     demo = pd.read_csv(PAR / "demo.csv", usecols=["primaryid", "year", "sex"],
                        dtype=str, keep_default_na=False).drop_duplicates("primaryid")
@@ -157,7 +156,7 @@ def fig_temporal(temp):
 
 
 def main():
-    desc = descriptive_stats()
+    descriptive_stats()
     val = validate_detection()
     sig = classify_signals(pd.read_csv(RES / "faers_drug_substance_signals.csv"))
     sig.to_csv(RES / "faers_drug_substance_signals.csv", index=False)

@@ -1,0 +1,9 @@
+# Lint configuration for CI. See the comment in Phase1/ruff.toml for the rationale.
+line-length = 100
+target-version = "py313"
+
+# Legacy coursework notebook, not part of the pipeline.
+exclude = ["PSM691_Project_NLP_Final.ipynb"]
+
+[lint]
+select = ["E9", "F"]

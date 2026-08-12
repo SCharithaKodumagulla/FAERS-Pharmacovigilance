@@ -20,9 +20,8 @@ Outputs (pipeline/results/parsed/):  demo.csv drug.csv reac.csv outc.csv indi.cs
 plus step1_record_counts.csv and step2_dedup_summary.csv.
 """
 from __future__ import annotations
-import csv, io, re, sys, zipfile
+import csv, io, re, zipfile
 from pathlib import Path
-from collections import defaultdict
 
 BASE = Path(__file__).resolve().parent
 RAW = BASE.parent / "data" / "raw"
