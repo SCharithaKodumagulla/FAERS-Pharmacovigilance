@@ -1,0 +1,38 @@
+MIT License
+
+Copyright (c) 2026 Charitha Subrahmanya Kodumagulla
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+NOTE ON DATA AND CLINICAL USE
+
+This license covers source code only.
+
+Input data are public-domain U.S. federal government works and are not
+redistributed here:
+  - NSDUH public use files (SAMHSA/CBHSQ)
+  - FAERS quarterly ASCII extracts (U.S. FDA)
+Users must obtain these from the agencies directly and follow the terms
+attached to each source.
+
+The software is a research artifact. It is NOT a medical device, has not been
+reviewed or cleared by any regulatory authority, and must not be used to
+direct patient care. It surfaces evidence; it does not give clinical advice.

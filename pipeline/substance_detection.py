@@ -94,35 +94,52 @@ def _context(text, m, width=40):
     return text[a:b].replace("\n", " ").strip()
 
 
+def _excluded_spans(text: str, exclusion_rxs) -> list[tuple[int, int]]:
+    """Character spans covered by an exclusion pattern (e.g. 'alcohol swab')."""
+    spans = []
+    for rx in exclusion_rxs:
+        spans.extend((m.start(), m.end()) for m in rx.finditer(text))
+    return spans
+
+
+def _overlaps(span: tuple[int, int], spans: list[tuple[int, int]]) -> bool:
+    s, e = span
+    return any(s < xe and e > xs for xs, xe in spans)
+
+
 def detect_substances(text: str) -> list[SubstanceHit]:
-    """Return at most one hit per substance for the given text blob."""
+    """Return at most one hit per substance for the given text blob.
+
+    Exclusions suppress a match only where the match *falls inside* the excluded span.
+    That distinction matters: "alcohol swab" must not count as alcohol use, but
+    "alcohol swab used; patient drinks alcohol daily" must, because the second mention
+    sits outside the excluded span.
+
+    (Earlier revisions applied exclusions to contextual matches only and let a primary
+    match through with reduced confidence. Since /alcohol/ matches inside "alcohol swab",
+    every excipient and swab mention was counted as substance use.)
+    """
     if not text:
         return []
+
     hits = []
     for sub, groups in _COMPILED.items():
-        if any(rx.search(text) for rx in groups["exclusions"]):
-            # if an exclusion fires, require a *primary* hit that is not the excluded span
-            excl = True
-        else:
-            excl = False
+        excluded = _excluded_spans(text, groups["exclusions"])
+
         chosen = None
-        for rx in groups["primary"]:
-            m = rx.search(text)
-            if m:
-                chosen = SubstanceHit(sub, "primary", 0.95, m.group(0), _context(text, m))
-                break
-        if chosen is None and not excl:
-            for rx in groups["contextual"]:
-                m = rx.search(text)
-                if m:
-                    chosen = SubstanceHit(sub, "contextual", 0.70, m.group(0),
-                                          _context(text, m))
+        for kind, conf in (("primary", 0.95), ("contextual", 0.70)):
+            for rx in groups[kind]:
+                for m in rx.finditer(text):
+                    if _overlaps((m.start(), m.end()), excluded):
+                        continue          # this occurrence is a homonym; keep looking
+                    chosen = SubstanceHit(sub, kind, conf, m.group(0), _context(text, m))
                     break
-        # exclusion present and no clear primary -> treat as medical homonym, skip
-        if chosen is not None and excl and chosen.match_type == "primary":
-            # primary still wins but flag lower confidence (homonym nearby)
-            chosen.confidence = 0.80
-        if chosen is not None and not (excl and chosen.match_type == "contextual"):
+                if chosen:
+                    break
+            if chosen:
+                break
+
+        if chosen is not None:
             hits.append(chosen)
     return hits
 

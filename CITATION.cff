@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this pipeline or its signal estimates, please cite it."
+title: "FAERS-Pharmacovigilance: drug-substance safety signal detection in FAERS 2020-2024"
+abstract: >-
+  A reproducible pipeline over 20 quarters of the FDA Adverse Event Reporting
+  System (8.74M report-versions deduplicated to 7.47M unique cases). Detects
+  15 substances - including emerging ones such as xylazine, nitazenes,
+  tianeptine and designer benzodiazepines - from structured report fields, and
+  computes four disproportionality measures per drug-event pair (ROR, PRR,
+  BCPNN information component, and an empirical-Bayes Gamma-Poisson EBGM).
+  Adds substance-stratified ROR with a z-test on the log-ROR difference, so a
+  signal can be assessed with and without substance co-mention.
+type: software
+authors:
+  - family-names: Kodumagulla
+    given-names: Charitha Subrahmanya
+    email: kodumags@mail.gvsu.edu
+    affiliation: Grand Valley State University
+license: MIT
+keywords:
+  - FAERS
+  - pharmacovigilance
+  - disproportionality analysis
+  - signal detection
+  - polysubstance use
+  - EBGM
+  - BCPNN

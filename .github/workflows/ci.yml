@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# The FAERS archives are ~1.3 GB and the parsed intermediates ~4.0 GB, so CI cannot run
+# the pipeline. It runs the substance-detector regression suite, which is the part where a
+# silent change would corrupt every downstream signal estimate.
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install ruff pytest
+
+      - name: Lint
+        run: ruff check pipeline/ tests/
+
+      - name: Compile all pipeline steps
+        run: python -m compileall -q pipeline/
+
+      - name: Substance-detection regression tests
+        run: pytest tests/ -q
+
+      - name: Verify Phase 3 export contracts are present
+        run: |
+          set -e
+          cd pipeline/results
+          for f in faers_drug_substance_signals.csv faers_temporal_trends.csv \
+                   faers_substance_detection_validation.csv faers_descriptive_stats.csv; do
+            test -s "$f" || { echo "MISSING Phase 3 contract: $f"; exit 1; }
+            echo "ok: $f ($(wc -l < "$f") lines)"
+          done

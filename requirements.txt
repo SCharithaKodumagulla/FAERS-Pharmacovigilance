@@ -1,0 +1,14 @@
+# Phase 2 — FAERS pharmacovigilance pipeline
+#
+# Verified against the environment that produced the published results:
+#   Python 3.13.12 (~/miniforge3/bin/python3)
+#
+# Note: the four disproportionality estimators (ROR, PRR, BCPNN/IC, and a
+# method-of-moments EBGM) are implemented in-repo in
+# pipeline/05_disproportionality.py, so there is no dependency on
+# openEBGM or PhViD.
+
+pandas==2.3.3
+numpy==2.3.5
+scipy==1.16.3
+matplotlib==3.10.8
